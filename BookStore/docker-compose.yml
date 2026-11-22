@@ -1,0 +1,17 @@
+services:
+  api:
+    build: .
+    image: bookstore-api:latest
+    ports:
+      - "8000:8000"
+    environment:
+      # Required. Set it in your shell or a .env file next to this compose file.
+      SECRET_KEY: ${SECRET_KEY:?SECRET_KEY must be set}
+      DATABASE_URL: sqlite+aiosqlite:////data/bookstore.db
+      WEBHOOK_URL: ${WEBHOOK_URL:-}
+    volumes:
+      - bookstore-data:/data
+    restart: unless-stopped
+
+volumes:
+  bookstore-data:
